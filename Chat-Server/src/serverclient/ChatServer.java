@@ -7,7 +7,7 @@ package serverclient;
 
 /**
  *
- * @author User
+ * @author Klid Selhani
  */
 import java.net.*;
 import java.io.*;
@@ -73,20 +73,24 @@ public class ChatServer implements Runnable{
       } 
    }
    
-   private int findClient(int ID)
-   {  for (int i = 0; i < clientCount; i++)
+   // Wenn wir die Client finden wollen, rufen diese Methode und senden als Parameter die ID
+   private int findClient(int ID){  
+       for (int i = 0; i < clientCount; i++){
          if (clients[i].getID() == ID)
             return i;
+       }
       return -1;
    }
    
-   public synchronized void handle(int ID, String input)
-   {  if (input.equals(".bye"))
-      {  clients[findClient(ID)].send(".bye");
-         remove(ID); }
-      else
+   public synchronized void handle(int ID, String input){
+       if (input.equals(".bye")){
+           clients[findClient(ID)].send(".bye");
+           remove(ID); 
+       }
+       else{
          for (int i = 0; i < clientCount; i++)
-            clients[i].send(ID + ": " + input);   
+            clients[i].send(ID + ": " + input); 
+       }
    }
    
    public synchronized void remove(int ID)

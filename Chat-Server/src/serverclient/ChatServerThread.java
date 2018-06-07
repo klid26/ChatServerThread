@@ -63,21 +63,28 @@ public class ChatServerThread extends Thread{
        System.out.println("Server Thread " + ID + " running.");
       while (true){  
           try{  
+              // Ruft die Methode handle von ChatServer wo die ID und String von InputStream als parameter gegeben sind
               server.handle(ID, streamIn.readUTF());
+              
          }catch(IOException ioe){  System.out.println(ID + " ERROR reading: " + ioe.getMessage());
             server.remove(ID);
             stop();
          }
       }
    }
-   public void open() throws IOException
-   {  
+   
+   public void open() throws IOException{
+       
+       // Wir wevenden diese Classen um Daten auf der Socket zu lesen und zu schreiben
        streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
        streamOut = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
    }
-   public void close() throws IOException
-   {  if (socket != null)    socket.close();
-      if (streamIn != null)  streamIn.close();
-      if (streamOut != null) streamOut.close();
+   
+   public void close() throws IOException{
+       
+       // Wenn wir sind mit det Chat fertig, rufen diese Methode um die Socket, InputStream und OutputStream zu beenden. 
+       if (socket != null)    socket.close();
+       if (streamIn != null)  streamIn.close();
+       if (streamOut != null) streamOut.close();
    }
 }
